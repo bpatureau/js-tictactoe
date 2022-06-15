@@ -7,6 +7,16 @@
 const $board = document.querySelector(".board")
 const $winningMessage = document.querySelector(".winning-message")
 const $winningMessageTxt = document.querySelector("#winningMessageText")
+let winCondition = [
+  [1, 3, 5],
+  [7, 9, 11],
+  [13, 15, 17],
+  [1, 7, 13],
+  [3, 9, 15],
+  [5, 11, 17],
+  [1, 9, 17],
+  [5, 9, 13]
+]
 let turnCount
 let whosTurn
 let victoire
@@ -39,54 +49,13 @@ const handleClick = (e) => {
 }
 
 const checkVictory = () => {
-  //victoire horizontale haute
-  if($board.childNodes[1].classList.contains(whosTurn) && $board.childNodes[3].classList.contains(whosTurn) && $board.childNodes[5].classList.contains(whosTurn)) {
-    victoire = true
-    gameOver()
-    return
-  }
-    //victoire horizontale centrale
-  if($board.childNodes[7].classList.contains(whosTurn) && $board.childNodes[9].classList.contains(whosTurn) && $board.childNodes[11].classList.contains(whosTurn)) {
-    victoire = true
-    gameOver()
-    return
-  }
-    //victoire horizontale basse
-  if($board.childNodes[13].classList.contains(whosTurn) && $board.childNodes[15].classList.contains(whosTurn) && $board.childNodes[17].classList.contains(whosTurn)) {
-    victoire = true
-    gameOver()
-    return
-  }
-  //victoire verticale gauche
-  if($board.childNodes[1].classList.contains(whosTurn) && $board.childNodes[7].classList.contains(whosTurn) && $board.childNodes[13].classList.contains(whosTurn)) {
-    victoire = true
-    gameOver()
-    return
-  }
-    //victoire verticale centrale
-  if($board.childNodes[3].classList.contains(whosTurn) && $board.childNodes[9].classList.contains(whosTurn) && $board.childNodes[15].classList.contains(whosTurn)) {
-    victoire = true
-    gameOver()
-    return
-  }
-    //victoire verticale droite
-  if($board.childNodes[5].classList.contains(whosTurn) && $board.childNodes[11].classList.contains(whosTurn) && $board.childNodes[17].classList.contains(whosTurn)) {
-    victoire = true
-    gameOver()
-    return
-  }
-  //victoire diagonale gauche-droite
-  if($board.childNodes[1].classList.contains(whosTurn) && $board.childNodes[9].classList.contains(whosTurn) && $board.childNodes[17].classList.contains(whosTurn)) {
-    victoire = true
-    gameOver()
-    return
-  }
-  //victoire diagonale droite-gauche
-  if($board.childNodes[5].classList.contains(whosTurn) && $board.childNodes[9].classList.contains(whosTurn) && $board.childNodes[13].classList.contains(whosTurn)) {
-    victoire = true
-    gameOver()
-    return
-  }
+  winCondition.forEach(e => {
+    if($board.childNodes[e[0]].classList.contains(whosTurn) && $board.childNodes[e[1]].classList.contains(whosTurn) && $board.childNodes[e[2]].classList.contains(whosTurn)) {
+      victoire = true
+      gameOver()
+      return
+    }
+  });
 }
 
 const gameStart = () => {
