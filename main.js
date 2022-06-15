@@ -66,6 +66,14 @@ const checkVictory = () => {
 }
 
 const gameStart = () => {
+  victoire = false
+  turnCount="1"
+  whosTurn = "x"
+  if($board.classList.contains("circle")){
+    $board.classList.remove("circle")
+    $board.classList.add(whosTurn)
+  }
+
   if($winningMessage.classList.contains("show")) {
     $winningMessage.classList.remove("show")
   }
@@ -77,10 +85,7 @@ const gameStart = () => {
       e.classList.remove("circle")
     } 
   });
-  victoire = false
-  turnCount="1"
-  whosTurn = "x"
-  $board.classList.add(whosTurn)
+
 }
 
 const gameOver = () => {
