@@ -7,6 +7,8 @@
 const $board = document.querySelector(".board")
 const $winningMessage = document.querySelector(".winning-message")
 const $winningMessageTxt = document.querySelector("#winningMessageText")
+const $restartButton = document.querySelector("#restartButton")
+const $cellule = document.querySelectorAll(".cell")
 let winCondition = [
   [1, 3, 5],
   [7, 9, 11],
@@ -21,11 +23,12 @@ let turnCount
 let whosTurn
 let victoire
 const init = () => {
-  $board.addEventListener("click", e => handleClick(e))
+  $board.addEventListener("click", e => handleClickCase(e))
+  $restartButton.addEventListener("click", e => handleClickRestart(e))
   gameStart();
 }
 
-const handleClick = (e) => {
+const handleClickCase = (e) => {
   if(e.target.classList.contains("x") || e.target.classList.contains("circle")){
     return
   }
@@ -47,18 +50,33 @@ const handleClick = (e) => {
   turnCount++
   $board.classList.add(whosTurn)
 }
+const handleClickRestart = (e) => {
+  e.preventDefault();
+  console.log("ui")
+  gameStart()
+}
 
 const checkVictory = () => {
   winCondition.forEach(e => {
     if($board.childNodes[e[0]].classList.contains(whosTurn) && $board.childNodes[e[1]].classList.contains(whosTurn) && $board.childNodes[e[2]].classList.contains(whosTurn)) {
       victoire = true
       gameOver()
-      return
     }
   });
 }
 
 const gameStart = () => {
+  if($winningMessage.classList.contains("show")) {
+    $winningMessage.classList.remove("show")
+  }
+  $cellule.forEach(e => {
+    if(e.classList.contains("x")) {
+      e.classList.remove("x")
+    } 
+    if(e.classList.contains("circle")) {
+      e.classList.remove("circle")
+    } 
+  });
   victoire = false
   turnCount="1"
   whosTurn = "x"
