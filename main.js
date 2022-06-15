@@ -28,17 +28,19 @@ let turnCount
 let whosTurn
 //on a gagné ?
 let victoire
-//
+//score actuel
 let currentScore= []
 //initialisation du jeu
 const init = () => {
   if(localStorage.getItem("score" !== "")){
   currentScore = localStorage.getItem("score")
 }
+//activation des events listener
   $board.addEventListener("click", e => handleClickCase(e))
   $restartButton.addEventListener("click", e => handleClickRestart(e))
   $startGameButton.addEventListener("click", e => handleClickStart(e))
   gameStart();
+
   $login.classList.remove("hidden")
 }
 //si click et si la case est pas remplie, on remplie la case avec la personne à qui c'est le tour, puis on voit si elle a gagné
@@ -56,6 +58,7 @@ const handleClickCase = (e) => {
   }else {
     whosTurn = "x"
   }
+  //affichage du message "à qui le tour"
   $quiJoue.innerHTML = `C'est à ${localStorage.getItem(whosTurn)}`
   if(turnCount >= 9 && !victoire) {
     gameOver()
@@ -121,8 +124,12 @@ const gameOver = () => {
   $winningMessage.classList.add("show")
   if(turnCount >= 9 && !victoire) {
     $winningMessageTxt.innerHTML = `Match nul`
+    //ajout dans le scoring le match nul
+    currentScore.push('match nul')
+    localStorage.setItem("score", currentScore)
     return 
   }
+  //ajout dans le scoring du nom du joueur qui à gagné
   $winningMessageTxt.innerHTML = `<p>${localStorage.getItem(whosTurn)},</p> <p>le joueur des ${whosTurn}, a gagné !</p>` 
   currentScore.push(localStorage.getItem(whosTurn))
   console.log(currentScore)
