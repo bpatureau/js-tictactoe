@@ -81,6 +81,45 @@ body {
 	background: radial-gradient(var(--color-set) 60%, transparent 60%);
 }
 
+/* message de début de partie */
+.login {
+	position: fixed;
+	display: flex;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: var(--color-set);
+	justify-content: center;
+	align-items: center;
+	color: white;
+	font-size: 5rem;
+	font-family: 'Courier New', Courier, monospace;
+	flex-direction: column;
+	z-index: 100;
+}
+.login.hidden {
+	display: none
+}
+
+/* button pour recommencer */
+.joueurs label {
+	border-radius: 10px;
+	font-size: 2rem;
+	border: 1px solid var(--color-set);
+	padding: .25em .5em;
+	cursor: pointer;
+}
+
+/* button pour recommencer */
+.login button {
+	border-radius: 10px;
+	font-size: 3rem;
+	background-color: white;
+	border: 1px solid var(--color-set);
+	padding: .25em .5em;
+	cursor: pointer;
+}
 /* message de fin de partie */
 .winning-message {
 	display: none;

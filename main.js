@@ -3,6 +3,14 @@ const $winningMessage = document.querySelector(".winning-message")
 const $winningMessageTxt = document.querySelector("#winningMessageText")
 const $restartButton = document.querySelector("#restartButton")
 const $cellule = document.querySelectorAll(".cell")
+const $login = document.querySelector(".login")
+const $startGameButton = document.querySelector(".startGameButton")
+const $joueurx = document.querySelector(".joueur-x")
+const $joueurcircle = document.querySelector(".joueur-circle")
+const $quiJoue = document.querySelector(".quiJoue")
+const $score = document.querySelector(".score")
+const $scoreList = document.querySelector(".score-list")
+
 //toutes les manières de gagner
 const WINCONDITION = [
   [1, 3, 5],
@@ -20,12 +28,18 @@ let turnCount
 let whosTurn
 //on a gagné ?
 let victoire
-
+//
+let currentScore= []
 //initialisation du jeu
 const init = () => {
+  if(localStorage.getItem("score" !== "")){
+  currentScore = localStorage.getItem("score")
+}
   $board.addEventListener("click", e => handleClickCase(e))
   $restartButton.addEventListener("click", e => handleClickRestart(e))
+  $startGameButton.addEventListener("click", e => handleClickStart(e))
   gameStart();
+  $login.classList.remove("hidden")
 }
 //si click et si la case est pas remplie, on remplie la case avec la personne à qui c'est le tour, puis on voit si elle a gagné
 const handleClickCase = (e) => {
@@ -36,13 +50,13 @@ const handleClickCase = (e) => {
   $board.classList.remove(whosTurn)
 
   checkVictory()
-
+// on change le joueur qui va jouer
   if(whosTurn === "x") {
     whosTurn = "circle"
   }else {
     whosTurn = "x"
   }
-  console.log(victoire)
+  $quiJoue.innerHTML = `C'est à ${localStorage.getItem(whosTurn)}`
   if(turnCount >= 9 && !victoire) {
     gameOver()
     return
@@ -51,12 +65,30 @@ const handleClickCase = (e) => {
   $board.classList.add(whosTurn)
 }
 
-//bouton restart
+//bouton start
+const handleClickStart = (e) => {
+  e.preventDefault();
+  console.log($joueurx.value)
+  if($joueurx.value === ""){
+    localStorage.setItem('x', 'anonymous')
+  } else {
+    localStorage.setItem('x', $joueurx.value)
+  }
+  if($joueurcircle.value === ""){
+    localStorage.setItem('circle', 'anonymous')
+  } else {
+    localStorage.setItem('circle', $joueurcircle.value)
+  }
+  gameStart()
+}
+
+//bouton Restart
 const handleClickRestart = (e) => {
   e.preventDefault();
   console.log("ui")
   gameStart()
 }
+
 // si l'une des conditions de victoire est atteint, on lance les feux d'artifice
 const checkVictory = () => {
   WINCONDITION.forEach(e => {
@@ -68,24 +100,19 @@ const checkVictory = () => {
 }
 //début de la partie, on remet tout bien en place si une partie à été jouée avant
 const gameStart = () => {
+  $login.classList.add("hidden")
+
   victoire = false
   turnCount="1"
   whosTurn = "x"
+  $quiJoue.innerHTML= `C'est à ${localStorage.getItem(whosTurn)} `
   $board.classList.add(whosTurn)
-  if($board.classList.contains("circle")){
     $board.classList.remove("circle")
-  } 
-
-  if($winningMessage.classList.contains("show")) {
     $winningMessage.classList.remove("show")
-  }
+
   $cellule.forEach(e => {
-    if(e.classList.contains("x")) {
       e.classList.remove("x")
-    } 
-    if(e.classList.contains("circle")) {
       e.classList.remove("circle")
-    } 
   });
 
 }
@@ -96,7 +123,11 @@ const gameOver = () => {
     $winningMessageTxt.innerHTML = `Match nul`
     return 
   }
-  $winningMessageTxt.innerHTML = `${whosTurn} a gagné !`   
+  $winningMessageTxt.innerHTML = `<p>${localStorage.getItem(whosTurn)},</p> <p>le joueur des ${whosTurn}, a gagné !</p>` 
+  currentScore.push(localStorage.getItem(whosTurn))
+  console.log(currentScore)
+  localStorage.setItem("score", currentScore)
+  $scoreList.innerHTML=`<ul>${localStorage.getItem("score", currentScore)}</ul>`  
 }
 
 init()

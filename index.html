@@ -10,9 +10,18 @@
 </head>
 <body>
     <div class="login">
-        <input class="joueur-x" type="text">
-        <input class="joueur-circle" type="text">
-        <button>Start game</button>
+        <div class="joueurs">
+            <label for="joueurx">joueur des croix</label>
+            <input class="joueur-x" type="text" name="joueurx">
+            <input class="joueur-circle" type="text" name="joueurcircle">
+            <label for="joueurcircle">joueur des cercles</label>
+        </div>
+        <button class="startGameButton">Start game</button>
+    </div>
+    <h1 class="quiJoue"></h1>
+    <div class="score">
+        <h2>score</h2>
+        <div class="score-list"></div>
     </div>
     <div class="board" id="board">
            <div class="cell" data-cell></div>
