@@ -9,7 +9,7 @@ const $winningMessage = document.querySelector(".winning-message")
 const $winningMessageTxt = document.querySelector("#winningMessageText")
 const $restartButton = document.querySelector("#restartButton")
 const $cellule = document.querySelectorAll(".cell")
-let winCondition = [
+const WINCONDITION = [
   [1, 3, 5],
   [7, 9, 11],
   [13, 15, 17],
@@ -57,7 +57,7 @@ const handleClickRestart = (e) => {
 }
 
 const checkVictory = () => {
-  winCondition.forEach(e => {
+  WINCONDITION.forEach(e => {
     if($board.childNodes[e[0]].classList.contains(whosTurn) && $board.childNodes[e[1]].classList.contains(whosTurn) && $board.childNodes[e[2]].classList.contains(whosTurn)) {
       victoire = true
       gameOver()
@@ -69,10 +69,10 @@ const gameStart = () => {
   victoire = false
   turnCount="1"
   whosTurn = "x"
+  $board.classList.add(whosTurn)
   if($board.classList.contains("circle")){
     $board.classList.remove("circle")
-    $board.classList.add(whosTurn)
-  }
+  } 
 
   if($winningMessage.classList.contains("show")) {
     $winningMessage.classList.remove("show")
