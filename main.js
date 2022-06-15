@@ -9,7 +9,9 @@ const $joueurx = document.querySelector(".joueur-x")
 const $joueurcircle = document.querySelector(".joueur-circle")
 const $quiJoue = document.querySelector(".quiJoue")
 const $score = document.querySelector(".score")
-const $scoreList = document.querySelector(".score-list")
+const $scoreModal = document.querySelector(".scoreModal")
+const $scoreList = document.querySelector(".scoreList")
+const $scoreButton = document.querySelector(".scoreButton")
 
 //toutes les manières de gagner
 const WINCONDITION = [
@@ -22,6 +24,8 @@ const WINCONDITION = [
   [1, 9, 17],
   [5, 9, 13]
 ]
+//qui commence ?
+let coinFlip
 //nombre de tour passé
 let turnCount
 //qui est en train de jouer
@@ -39,6 +43,8 @@ const init = () => {
   $board.addEventListener("click", e => handleClickCase(e))
   $restartButton.addEventListener("click", e => handleClickRestart(e))
   $startGameButton.addEventListener("click", e => handleClickStart(e))
+  $scoreButton.addEventListener("click", e => handleClickScore(e))
+  $scoreModal.addEventListener("click", e => handleClickModal())
   gameStart();
 
   $login.classList.remove("hidden")
@@ -68,7 +74,7 @@ const handleClickCase = (e) => {
   $board.classList.add(whosTurn)
 }
 
-//bouton start
+//bouton start (début de la toute première partie)
 const handleClickStart = (e) => {
   e.preventDefault();
   console.log($joueurx.value)
@@ -83,6 +89,15 @@ const handleClickStart = (e) => {
     localStorage.setItem('circle', $joueurcircle.value)
   }
   gameStart()
+}
+//bouton score
+const handleClickScore = (e) => {
+  e.preventDefault();
+  $scoreModal.classList.toggle("hidden")
+}
+//click sur la modal de la light-box
+const handleClickModal = () => {
+  $scoreModal.classList.toggle("hidden")
 }
 
 //bouton Restart
@@ -104,13 +119,16 @@ const checkVictory = () => {
 //début de la partie, on remet tout bien en place si une partie à été jouée avant
 const gameStart = () => {
   $login.classList.add("hidden")
-
+  coinFlip = Math.round(Math.random())
+  console.log(coinFlip)
+  coinFlip === 0 ? whosTurn = "x": whosTurn="circle"
   victoire = false
   turnCount="1"
-  whosTurn = "x"
   $quiJoue.innerHTML= `C'est à ${localStorage.getItem(whosTurn)} `
+  $board.classList.remove("circle")
+  $board.classList.remove("x")
   $board.classList.add(whosTurn)
-    $board.classList.remove("circle")
+
     $winningMessage.classList.remove("show")
 
   $cellule.forEach(e => {
@@ -133,7 +151,7 @@ const gameOver = () => {
   $winningMessageTxt.innerHTML = `<p>${localStorage.getItem(whosTurn)},</p> <p>le joueur des ${whosTurn}, a gagné !</p>` 
   currentScore.push(localStorage.getItem(whosTurn))
   console.log(currentScore)
-  localStorage.setItem("score", currentScore)
+  localStorage.setItem("score", `<li>${currentScore}</li>`)
   $scoreList.innerHTML=`<ul>${localStorage.getItem("score", currentScore)}</ul>`  
 }
 

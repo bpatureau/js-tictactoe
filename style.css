@@ -101,7 +101,29 @@ body {
 .login.hidden {
 	display: none
 }
-
+.scoreModal {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		position: fixed;
+		z-index: 1;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		overflow: auto;
+		background-color: black;
+}
+.scoreModal.hidden {
+	display: none;
+}
+.scoreList {
+	position: fixed;
+	width: 60%;
+	height: 60%;
+	background-color: #fff;
+	border-radius: 2rem;
+}
 /* button pour recommencer */
 .joueurs label {
 	border-radius: 10px;
